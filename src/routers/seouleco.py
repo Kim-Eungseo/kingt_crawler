@@ -18,100 +18,103 @@ MAX_WORKERS = 20
 
 
 class SEQuery(BaseModel):
-    page: int
-    scDetail: str = "detail"
-    scOrdBy: int = 0
-    catView: str = "AL"
-    scText: str
-    scPeriod: str = "6m"
-    scArea: str = "tc"
-    scTextIn: str = ""
-    scTextExt: str = ""
-    scPeriodS: str = ""
-    scPeriodE: str = ""
+    page: int = 1
+    sc_detail: str = "detail"
+    sc_ord_by: int = 0
+    cat_view: str = "AL"
+    keyword: str = ""
+    period: str = "6m"
+    sc_area: str = "tc"
+    include: str = ""
+    exclude: str = ""
+    start_date: str = ""
+    end_date: str = ""
     command: str = ""
     _: int = int(datetime.now().timestamp())
 
 
-@router.post("/articles")
-async def getSEArticle(query: SEQuery):
-    requestUrl = makeSearchSEUrl(query)
+@router.get("/articles")
+async def get_se_article(query: SEQuery):
+    request_url = make_search_se_url(query)
     # UA가 없으면 403 에러 발생
-    response = requests.get(requestUrl, headers={'User-Agent': 'Mozilla/5.0'})
+    response = requests.get(request_url, headers={'User-Agent': 'Mozilla/5.0'})
+    if response.status_code == 200:
+        html = response.content.decode('utf-8')
 
-    html = response.content.decode('utf-8')
+        r = re.compile("(/NewsView/\w+)\"")
+        link_result = r.findall(html)
 
-    r = re.compile("(/NewsView/\w+)\"")
-    linkResult = r.findall(html)
+        date_r = re.compile("<span class=\"date\">(\d{4}.\d{2}.\d{2})</span>")
+        date_result = date_r.findall(html)
 
-    dateR = re.compile("<span class=\"date\">(\d{4}.\d{2}.\d{2})</span>")
-    dateResult = dateR.findall(html)
+        time_r = re.compile("<span class=\"time\">(\d{2}:\d{2}:\d{2})</span>")
+        time_result = time_r.findall(html)
 
-    timeR = re.compile("<span class=\"time\">(\d{2}:\d{2}:\d{2})</span>")
-    timeResult = timeR.findall(html)
+        workers = min(MAX_WORKERS, len(link_result))
+        with futures.ThreadPoolExecutor(workers) as executor:
+            article_result = list(executor.map(parse_article, link_result))
 
-    workers = min(MAX_WORKERS, len(linkResult))
-    with futures.ThreadPoolExecutor(workers) as executor:
-        articleResult = list(executor.map(parseArticle, linkResult))
-
-    resultList = []
-    for i in range(len(linkResult)):
-        resultList.append({
-            "link": url + linkResult[i],
-            "datetime": dateResult[i] + ' ' + timeResult[i],
-            "article": articleResult[i]
-        })
-    return {
-        "result": resultList
-    }
+        result_list = []
+        for i in range(len(link_result)):
+            result_list.append({
+                "link": url + link_result[i],
+                "datetime": date_result[i] + ' ' + time_result[i],
+                "article": article_result[i]
+            })
+        return {
+            "result": result_list
+        }
+    else:
+        print(response.status_code)
 
 
-@router.post("/search")
-async def searchSE(query: SEQuery):
-    requestUrl = makeSearchSEUrl(query)
+
+@router.get("/search")
+async def search_se(query: SEQuery):
+    requestUrl = make_search_se_url(query)
     # UA가 없으면 403 에러 발생
     response = requests.get(requestUrl, headers={'User-Agent': 'Mozilla/5.0'})
 
     return {
         "Page": query.page,
-        "scDetail": query.scDetail,
-        "scOrdBy": query.scOrdBy,
-        "catView": query.catView,
-        "scText": quote(query.scText),
-        "scPeriod": query.scPeriod,
-        "scArea": query.scArea,
-        "scTextIn": quote(query.scTextIn),
-        "scTextExt": quote(query.scTextExt),
-        "scPeriodS": query.scPeriodS,
-        "scPeriodE": query.scPeriodE,
+        "scDetail": query.sc_detail,
+        "scOrdBy": query.sc_ord_by,
+        "catView": query.cat_view,
+        "scText": quote(query.keyword),
+        "scPeriod": query.period,
+        "scArea": query.sc_area,
+        "scTextIn": quote(query.include),
+        "scTextExt": quote(query.exclude),
+        "scPeriodS": query.start_date,
+        "scPeriodE": query.end_date,
         "command": query.command,
         "_": int(datetime.now().timestamp()),
         "result": response.content.decode('utf-8')
     }
 
 
-def makeSearchSEUrl(query):
+def make_search_se_url(query):
     paraList = [
         "Page=" + str(query.page),
-        "scDetail=" + query.scDetail,
-        "scOrdBy=" + str(query.scOrdBy),
-        "catView=" + query.catView,
-        "scText=" + quote(query.scText),
-        "scPeriod=" + query.scPeriod,
-        "scText=" + quote(query.scText),
-        "scPeriod=" + query.scPeriod,
-        "scArea=" + query.scArea,
-        "scTextIn=" + quote(query.scTextIn),
-        "scTextExt=" + quote(query.scTextExt),
-        "scPeriodS=" + query.scPeriodS,
-        "scPeriodE=" + query.scPeriodE,
+        "scDetail=" + query.sc_detail,
+        "scOrdBy=" + str(query.sc_ord_by),
+        "catView=" + query.cat_view,
+        "scText=" + quote(query.keyword),
+        "scPeriod=" + query.period,
+        "scText=" + quote(query.keyword),
+        "scPeriod=" + query.period,
+        "scArea=" + query.sc_area,
+        "scTextIn=" + quote(query.include),
+        "scTextExt=" + quote(query.exclude),
+        "scPeriodS=" + query.start_date,
+        "scPeriodE=" + query.end_date,
         "command=" + query.command,
         "_=" + str(int(datetime.now().timestamp()))
     ]
     return url + '/Search/Search/SEList?' + '&'.join(paraList)
 
 
-def parseArticle(path):
+def parse_article(path):
     article = Article(url + path, language='ko')
     article.download()
     article.parse()
