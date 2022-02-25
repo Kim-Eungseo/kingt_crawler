@@ -3,6 +3,7 @@ from newspaper import Article
 from fastapi import APIRouter
 from pydantic import BaseModel
 from bs4 import BeautifulSoup as Soup
+from urllib.parse import quote
 
 import re
 import requests
@@ -30,8 +31,23 @@ class DAQuery(BaseModel):
 @router.get("/articles")
 async def get_da_article(query: DAQuery):
     requestUrl = url + '?' + 'query=' + query.keyword
+    cookie = {
+        'searchWord': '["' + quote(query.keyword) + '"]',
+        'd': '621666e313842776909f',
+        'dable_uid': '31438380.1644776505990',
+        'ACEFCID': 'UID-621666E51BB747501236DDB2',
+        '_gid': 'GA1.2.1750488186.1645810264',
+        'trc_cookie_storage': 'taboola%2520global%253Auser-id%3D6d896eb3-bd4b-434d-96d5-c26f6e31e1aa-tuct902d96c',
+        '__gads': 'ID=5a864f6ce94c485e-22b1b401bbd00000:T=1645810313:RT=1645810313:S=ALNI_MYxFiIXnn1YSDE7il7B41nrvk8Zqg',
+        'cs': 'cGZzOjJ8',
+        '_gat_UA-59562926-1': 1,
+        '_ga_BVT88NZ6NV': 'GS1.1.1645810262.3.1.1645810379.30',
+        '_ga': 'GA1.2.913215520.1645635301'
+    }
     # UA가 없으면 403 에러 발생
-    response = requests.get(requestUrl, headers={'User-Agent': 'Mozilla/5.0'})
+    response = requests.get(requestUrl,
+                            headers={'User-Agent': 'Mozilla/5.0'},
+                            cookies=cookie)
 
     if response.status_code == 200:
         html = response.content.decode('utf-8')
