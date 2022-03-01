@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src='https://www.googletagmanager.com/ns.html?id=GTM-PCVCHHT' height='0' width='0' style='display:none;visibility:hidden'></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class='skip'><a href='#main_content'>본문바로가기</a></div>
+<!-- wrap -->
+<div id="dongawrap">
+  <header id='header' class='type01'><div class='header_wrap'><h1 class='donga_logo'><a href='https://www.donga.com'><span>동아일보</span></a></h1>        <div id="nav_icon" class="nav_icon">
+    <button type="button" class="icon_com btn_allmenu"><span class="txt">전체메뉴</span></button>
+    <button type="button" class="icon_com btn_search"><span class="txt">검색</span></button>
+    <div id="search_cont">
+      <form name="top_search_form" id="top_search_form" method="get" action="https://www.donga.com/news/search">
+        <div class="search_inp">
+          <span class="t"><input type="text" id="query" name="query" title="검색어 입력" placeholder="검색어를 입ocomplete="off"></span>
+          <input type="submit" alt="검색" title="검색" class="icon_com searchbtn" value="search" onclick="return search_form.submit();">
+        </div>
+      </form>
+    </div>
+    <div id="latest_cont">
+      <div class="list_cont">
+        <span class="tit">최근검색어</span>
+        <ul class='list_search'><li><a href='https://www.donga.com/news/search?query=EU'>EU</a><button type='button' class='icon_com01 btn_del' data-word='EU'>삭제</button></li></ul>
+      </div>
+      <div id="fun_cont" class="fun_cont">
+        <span class='btn_save'>검색어 저장 <button type='button' class='save' data-save='Y'>끄기</button></span>
+        <button type="button" class="icon_com01 close">닫기</button>
+      </div>
+    </div>
+    <script>
+      $('#fun_cont .save').on('click', function () {
+        if ( $(this).data('save') == "N" )
+        {
+          $(this).data('save', 'Y') ;
+          $(this).html('끄기');
+          $.cookie('searchWordSave', 'Y', { expires: 365, path: '/', domain: 'donga.com' });
+          $("#latest_cont p").remove() ;
+          $("#latest_cont ul").show() ;
+        }
+        else
+        {
+          $(this).data('save', 'N') ;
+          $(this).html('켜기');
+          $.cookie('searchWordSave', 'N', { expires: 365, path: '/', domain: 'donga.com' });
+          $("#latest_cont ul").hide() ;
+          $("#latest_cont .list_cont").append("<p class='no_search'>검색어 저장 기능을<br /> 확인해주세요.</p>") ;
+        }
+        return false;
+      });
+      $('#latest_cont .btn_del').on('click', function () {
+        var word = $(this).data('word') ;
+        setCookieSearch(word) ;
+        $(this).parent().remove() ;
+        return false;
+      });
+      function setCookieSearch(word)
+      {
+        $.ajax({
+          type: "GET",
+          url: "https://www.donga.com/news/search?mode=remove&query=" + word ,
+          dataType: "html",
+          success: function (result) {
+          }
+        });
+      }
+    </script>
+  </div>                <div class="relation_cont">
+    <div id="language_site" class="language_site">
+      <span class="txt">한국어<i class="icon_com01 icon_arr"></i></span>
+      <div id="language_cont">
+        <ul class="language_list list_relation">
+          <li><a href="https://www.donga.com">한국어<i class="icon_co icon_arr"></i></a></li>
+          <li><a href="https://www.donga.com/en">English</a></li>
+          <li><a href="https://www.donga.com/cn">中文</a></li>
+          <li><a href="https://www.donga.com/jp">日文</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="media_group" class="media_group">
+      <span class="txt">동아미디어그룹<i class="icon_com01 icon_arr"></i></span>
+      <div id="media_cont">
+        <ul class="media_list list_relation">
+          <li><a href="#">동아미디어그룹<i class="icon_com01 icon_arr/a></li>
+                                                                <li><a href="https://www.ichannela.com" target="_blank">채널</a></li>
+          <li><a href="https://sports.donga.com" target="_blank">스포아</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="login_group" class="login_group"><script type='text/javascript' src='https://www.donga.com/HUB/sports/login2.php'></script></div>
+  </div>
+    <div id="nav_cont" class="nav_cont">
+      <ul class="nav_list">
+        <li><a href='https://www.donga.com/ISSUE/vote2022'>대선 D-7</a></li>
+        <li><a href="https://www.donga.com/news/Opinion">오피니언</a></li>
+        <li><a href="https://www.donga.com/news/Politics">정치</a></li>
+        <li><a href="https://www.donga.com/news/Economy">경제</a></li>
+        <li><a href="https://www.donga.com/news/Inter">국제</a></li>
+        <li><a href="https://www.donga.com/news/Society">사회</a></li>
+        <li><a href="https://www.donga.com/news/Culture">문화</a></li>
+        <li><a href="https://www.donga.com/news/Entertainment">연예</a></li>
+        <li><a href="https://www.donga.com/news/Sports">스포츠</a></li>
+        <li><a href="https://magazine.donga.com" target="_blank">매거진</a></li>
+      </ul>
+    </div></div></header>            <div id="all_menu">
+  <div class="sitemap_box">
+    <dl class='left'>
+      <dt class='first'><a href='https://www.donga.com/news/Opinion'>오피니언</a></dt>
+      <dd><a href='https://www.donga.com/news/Series/70040100000001'>사설</a></dd>
+      <dd><a href='https://www.donga.com/news/Series/70040100000009'>오늘과 내일</a></dd>
+      <dd><a href='https://www.donga.com/news/Series/70040100000002'>횡설수설</a></dd>
+      <dd><a href='https://www.donga.com/news/Series/70040100000019'>동아광장</a></dd>
+      <dd><a href='https://www.donga.com/news/Series/70040100000018'>시론</a></dd>
+      <dd><a href='https://www.donga.com/news/Series/70040100000034'>광화문에서</a></dd>
+      <dd><a href='https://www.donga.com/news/Series/70010000000260'>현장에서</a></dd>
+    </dl>
+    <dl>
+      <dt class='first'>뉴스</dt>
+      <dd><a href='https://www.donga.com/news/Politics'>정치</a></dd>
+      <dd><a href='https://www.donga.com/news/Economy'>경제</a></dd>
+      <dd><a href='https://www.donga.com/news/Inter'>국제</a></dd>
+      <dd><a href='https://www.donga.com/news/Society'>사회</a></dd>
+      <dd><a href='https://www.donga.com/news/Culture'>문화</a></dd>
+      <dd><a href='https://www.donga.com/news/Entertainment'>연예</a></dd>
+      <dd><a href='https://www.donga.com/news/Sports'>스포츠</a></dd>
+    </dl>
+    <dl>
+      <dt class='first'>매거진</dt>
+      <dd><a href='https://shindonga.donga.com' target='_blank'>신동아</a></dd>
+      <dd><a href='https://weekly.donga.com' target='_blank'>주간동아</a></dd>
+      <dd><a href='https://woman.donga.com' target='_blank'>여성동아</a></dd>
+      <dd><a href='https://magazine.donga.com' target='_blank'>매거진동아</a></dd>
+      <dd><a href='https://dbr.donga.com/?src=image&kw=000011' target='_blank'>동아비즈니스리뷰</a></dd>
+      <dd><a href='https://www.hbrkorea.com' target='_blank'>하버드비즈니스<br/>리뷰코리아</a></dd>
+    </dl>
+    <dl>
+      <dd><a href='https://kids.donga.com' target='_blank'>어린이동아</a></dd>
+      <dd><a href='http://www.scienceboard.co.kr' target='_blank'>과학동아</a></dd>
+      <dd><a href='https://kids.dongascience.com' target='_blank'>어린이 과학동아</a></dd>
+      <dd><a href='http://www.polymath.co.kr' target='_blank'>수학동아</a></dd>
+      <dd><a href='http://edu.donga.com' target='_blank'>에듀동아</a></dd>
+    </dl>
+    <dl>
+      <dt class='first'>섹션</dt>
+      <dd><a href='https://www.donga.com/news/Section/Books'>책의 향기</a></dd>
+      <dd><a href='https://www.donga.com/news/Section/Health'>헬스 동아</a></dd>
+      <dd><a href='https://www.donga.com/news/Section/stylemagazineQ'>스타일매거진Q</a></dd>
+      <dd><a href='https://www.donga.com/news/Section/Goldengirl'>골든걸</a></dd>
+      <dd><a href='https://www.donga.com/news/Issue/07010000000057'>즐거운 인생</a></dd>
+      <dd><a href='https://www.donga.com/news/Section/Funnystudy'>edu+</a></dd>
+    </dl>
+    <dl>
+      <dt><a href='https://www.donga.com/news/List'>실시간 뉴스</a></dt>
+      <dt><a href='https://www.donga.com/news/Hotissue'>실시간 이슈</a></dt>
+      <dt><a href='https://www.donga.com/news/TrendNews'>트렌드뉴스</a></dt>
+      <dt><a href='https://www.donga.com/news/Newsletter'>뉴스레터 신청<span class="icon_com01 icon_new"></a></dt>
+      <dt><a href='https://www.donga.com/Journalist'>기자<span class="icon_com01 icon_new"></span></a></dt>
+
+
+      <dt class="app"><a href='https://web.donga.com/lab'>동아APP서비스</a></dt>
+    </dl>
+    <dl>
+      <dt><a href='https://www.donga.com/news'>오늘의신문</a></dt>
+      <dt><a href='https://www.donga.com/news/Pdf'>신문보기(PDF)</a></dt>
+      <dt><a href='https://readers.donga.com'>구독신청</a></dt>
+      <dt><a href='https://www.donga.com/news/Economy/List_0120'>보도자료</a></dt>
+      <dt><a href='https://voice.donga.com'>보이스뉴스</a></dt>
+      <dt><a href='https://rss.donga.com'>RSS</a></dt>
+      <dt><a href='http://dbs.donga.com' target='_blank'>동아방송 DBS</a></dt>
+    </dl>
+    <dl>
+      <dt><a href='https://www.ichannela.com' target='_blank'>채널A</a></dt>
+      <dt><a href='https://sports.donga.com' target='_blank'>스포츠동아</a></dt>
+      <dt class='first'><a href='https://bizn.donga.com'>비즈N</a></dt>
+      <dt><a href='http://mlbpark.donga.com' target='_blank'>MLB파크</a></dt>
+      <dt><a href='https://studio.donga.com' target='_blank'>보스</a></dt>
+      <dt><a href='https://voda.donga.com' target='_blank'>VODA</a></dt>
+      <dt><a href='https://it.donga.com' target='_blank'>IT동아</a></dt>
+      <dt><a href='https://game.donga.com' target='_blank'>게임동아</a></dt>
+    </dl>
+  </div>
+</div><div class='etcTit'><div class='thumb top_search'><img src='https://image.donga.com/pc/2020/images/common/top_search.jpg?t=202108' alt='미디어 검색'></div></div>    <!-- container -->
+  <div id="container" class="etcCon search_wrap">
+    <div class="search_menu">
+      <ul class="menu_list">
+        <li class='on'><a href="https://www.donga.com/news/search?query=EU">통합검색</a></li>
+        <li ><a href="https://www.donga.com/news/search?query=EU&check_news=1%7C2%7C3%7C4%7C5">뉴스</a></li>
+        <li ><a href="https://www.donga.com/news/search?query=EU&check_news=6">스포츠동아</a></li>
+        <li ><a href="https://www.donga.com/news/search?query=EU&check_news=7%7C8%7C9">매거진</a></li>
+        <li ><a href="https://www.donga.com/news/search?query=EU&check_news=12%7C14">포토</a></li>
+        <li ><a href="#" onclick="javascript:$('.d_search').toggle(); return false;">상세검색</a></li>
+      </ul>
+    </div>
+    <div id='sub_option'>
+      <div class="optionList">
+        <strong>정렬 <em>></em></strong>
+        <ul>
+          <!-- dafault 정확도순 -->
+          <li><a class="accuracy" href="#" onclick="search_more('1', '3', '1', '', '', '1', '1');">정확도순</a></li>
+          <li><a class="latest on" href="#" onclick="search_more('1', '1', '1', '', '', '1', '1');">최신순</a></li>
+          <li><a class="old" href="#" onclick="search_more('1', '2', '1', '', '', '1', '1');">오래된순</a></li>
+        </ul>
+
+        <strong>범위 <em>></em></strong>
+        <ul>
+          <!-- dafault 전체 -->
+          <li><a class="all on" href="#" onclick="search_more('1', '1', '1', '', '', '1', '1' );">전체</a></li>
+          <li><a class="range" href="#" onclick="search_more('1', '1', '1', '', '', '2', '1' );">제목</a></li>
+          <li><a class='ilbo' href='#' onclick="search_more('1', '1', '1', '', '', '3', '1' );">동아일보</a></li><a class='reporter' href='#' onclick="search_more('1', '1', '1', '', '', '4', '1' );">기자명</a></li>
+        </ul>
+
+        <strong>기간 <em>></em></strong>
+        <ul>
+          <!-- dafault 전체 -->
+          <li><a class="all on" href="#" onclick="search_more('1', '1', '1', '', '', '1', '1' );">전체</a></li>
+          <li><a class="week" href="#" onclick="search_more('1', '1', '1', '', '', '1', '4' );">1주</a></li>
+          <li><a class="month" href="#" onclick="search_more('1', '1', '1', '', '', '1', '3' );">1개월</a></li>
+          <li><a class="year" href="#" onclick="search_more('1', '1', '1', '', '', '1', '2' );">1년</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- content -->
+    <script>
+      var topno = "2";
+      $('#toplis'+topno).addClass('on');
+
+      function chk_count()
+      {
+        var i=0;
+        var j=0;
+        var str_chk = "";
+
+        if ( $("input[name='check_news']").val() == "" )
+        {
+          $('input[id=d_search_chk]').each(
+                  function()
+                  {
+                    if ( this.checked )
+                    {
+                      if ( j < 1 ) { str_chk = this.value; }
+                      else {  str_chk += "|" + this.value; }
+                      j++;
+                    }
+                    i++;
+                  }
+          )
+          $("input[name='check_news']").val(str_chk);
+        }
+
+        if ( $('input[id=d_search_chk]:checkbox:checked').length < 1 )
+        {
+          alert(' 매체명을 선택해주세요. ');
+          return false;
+        }
+
+        if ( $("form[name='search_form_detail']").find("input[name='query']").val() == "")
+        {
+          alert(' 검색어를 입력해주세요. ');
+          $("form[name='search_form_detail']").find("input[name='query']").focus();
+          return false;
+        }
+
+        if ( $("input[name='search_date']:checked").val() == 5 )
+        {
+          if ( $("input[name='v1']").val() == "" ) { alert(' 검색시작일을 입력해주세요. '); return false; }
+          else if ( $("input[name='v2']").val() == "" ) { alert(' 검색종료일을 입력해주세요. '); return false; }
+          else { document.search_form_detail.submit(); }
+        }
+        else { document.search_form_detail.submit(); }
+      }
+
+      function mod_date(a)
+      {
+        if ( a == 5 ) { $('.d_search').show(); }
+
+        if ( a < 5 )
+        {
+          $('#v1').val('');
+          $('#v2').val('');
+          $('#v1').attr("disabled", true);
+          $('#v2').attr("disabled", true);
+          $('#v1').css("background-color", "#e5e5e5");
+          $('#v2').css("background-color", "#e5e5e5");
+        }
+        else
+        {
+          $('#v1').attr("disabled", false);
+          $('#v2').attr("disabled", false);
+          $('#v1').css("background-color", "#ffffff");
+          $('#v2').css("background-color", "#ffffff");
+        }
+      }
+
+      function search_more(num, sort, more, v1, v2, range, search_date)
+      {
+        $("input[name='check_news']").val(num);
+        $("input[name='sorting']").val(sort);
+        $("input[name='more']").val(more);
+        if ( v1 ) { $("input[name='v1']").val(v1); }
+        if ( v2 ) { $("input[name='v2']").val(v2); }
+        if ( range ) { $("input[name='range']").val(range); }
+
+        if ( search_date )
+        {
+          if (search_date == 1)
+          {
+            $("input:radio[name='search_date']").removeAttr('checked');
+          }
+          $("input:radio[name='search_date']:radio[value='"+search_date+"']").attr('checked', true);
+        }
+        $("#search_form_detail").submit();
+      }
+    </script>
+    <!-- link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
+    <link rel="stylesheet" href="https://image.donga.com/donga/css/jquery-ui.css" / >
+    <script src='https://image.donga.com/donga/js/jquery-ui.js'></script>
+    <script>
+      $(function() {
+        var pickerOpts = {
+          dateFormat:"yymmdd" ,
+          dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          showAnim: "slideDown"
+        };
+
+        $( "#v1" ).datepicker(pickerOpts);
+        $( "#v2" ).datepicker(pickerOpts);
+      });
+    </script>
+
+
+    <!-- Contents -->
+    <div id="content">
+      <!-- 상세검색 -->
+      <div class="d_search" style="display:none;">
+        <form name="search_form_detail" id="search_form_detail" method="get" action="https://www.donga.com/news/search" onsubmit="chk_count();return false;">
+          <input type="hidden" name="check_news">
+          <input type="hidden" name="more">
+          <input type="hidden" name="sorting">
+          <input type="hidden" name="range">
+          <input type="hidden" name="search_date">
+          <table class="s">
+            <colgroup>
+              <col width="40">
+              <col width="576">
+            </colgroup>
+            <tbody>
+            <tr>
+              <th>뉴스</th>
+              <td>
+                <input type="checkbox" id="d_search_chk" value="1" checked><label for="d_search_1_1">동아일label>
+                <input type="checkbox" id="d_search_chk" value="6" ><label for="d_search_2_1">스포츠동아</label>
+                <input type="checkbox" id="d_search_chk" value="2" ><label for="d_search_1_2">비즈앤</label>
+                <input type="checkbox" id="d_search_chk" value="3" ><label for="d_search_1_3">이슈·연재</label>
+                <input type="checkbox" id="d_search_chk" value="4" ><label for="d_search_1_4">어린이동아</label>
+                <!-- input type="checkbox" id="d_search_chk" value="5" ><label for="d_search_1_5">도깨비뉴스bel -->
+              </td>
+            </tr>
+            <tr>
+              <th>매거진</th>
+              <td>
+                <input type="checkbox" id="d_search_chk" value="7" ><label for="d_search_3_1">신동아</label>
+                <input type="checkbox" id="d_search_chk" value="8" ><label for="d_search_3_2">주간동아</label>
+                <input type="checkbox" id="d_search_chk" value="9" ><label for="d_search_3_3">여성동아</label>
+                <!-- input type="checkbox" id="d_search_chk" value="10" ><label for="d_search_3_4">요리</lal>
+                <input type="checkbox" id="d_search_chk" value="11" ><label for="d_search_3_5">우먼동아일보l -->
+              </td>
+            </tr>
+            <tr>
+              <th>포토</th>
+              <td>
+                <input type="checkbox" id="d_search_chk" value="12" ><label for="d_search_4_1">포토뉴스</label>
+                <input type="checkbox" id="d_search_chk" value="14" ><label for="d_search_4_2">VODA</label>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <div class="d_term">
+            <strong>[검색기간]</strong>
+            <input type="radio" name="search_date" id="d_term_1" value="1" checked onclick="mod_date('1');"><label for="d_term_1">전체</label>
+            <input type="radio" name="search_date" id="d_term_2" value="2"  onclick="mod_date('2');"><label for="d_term_2">일년</label>
+            <input type="radio" name="search_date" id="d_term_3" value="3"  onclick="mod_date('3');"><label for="d_term_3">한달</label>
+            <input type="radio" name="search_date" id="d_term_4" value="4"  onclick="mod_date('4');"><label for="d_term_4">일주일</label>
+            <input type="radio" name="search_date" id="d_term_5" value="5"  onclick="mod_date('5');"><label for="d_term_5">직접입력</label>
+            <input class='t' style='width:60px;' type="text" title="검색시작날짜" id="v1" name="v1" value="">~<inpus='t' style='width:60px;' type="text" title="검색끝날짜" id="v2" name="v2" value=""> (예: 20130101 )
+          </div>
+
+          <div class="d_term">
+            <strong>[  검색어 ]</strong>
+            &nbsp;&nbsp;&nbsp;&nbsp;<input class="t" type="text" title="검색어" size=100 name="query" value="EU">
+            <input type="image" src="https://image.donga.com/donga2013/images/sub/btn_search_s.gif" alt="검색" clas"s">
+          </div>
+        </form>
+      </div>
+
+      <script> mod_date('".1."'); </script><br>
+
+      <link rel="stylesheet" type="text/css" href="https://image.wisenut.co.kr/WisenutAD/css/wsad_sty070704.css" />
+      <script language="javascript" type="text/javascript" src="https://adsvc.wisenut.co.kr/service_utf8.asp?keyword=EU&scode=2286&width=645"></script>
+      <div style="padding:20px 0 0 10px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+              <script language="javascript">
+                var premiumlink_title = "";
+                getPremiumLink(premiumlink_title);
+              </script>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <script language="javascript">
+                var wiselink_title = "";
+                getWiseLink(wiselink_title);
+              </script>
+            </td>
+          </tr>
+        </table>
+      </div><div class="searchContWrap">
+      <div class="searchCont">
+        <h2> 웹동아일보 <span>(총 27730 건 검색)</span>        <span class="list_type">
+            <img src="https://image.donga.com/donga2013/images/sub/chk.png" onclick="search_more('1', '1', '1', '', '', '1', '1');"> 최신순　
+            <img src="https://image.donga.com/donga2013/images/sub/chk_blank.png" onclick="search_more('1', '2', '1', '', '', '1', '1');"> 오래된순　
+            <img src="https://image.donga.com/donga2013/images/sub/chk_blank.png" onclick="search_more('1', '3', '1', '', '', '1', '1');"> 정확도순
+        </span></h2>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112094505/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112094441.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112094505/1" target='_blank' >AFP “나사, 러 없이 국장 궤도 유지 모색”</a>
+            <em></em>
+            <span>2022-03-01 12:36</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112094505/1" target='_blank' >미항공우주SA·나사)가 러시아의 협력 없이 국제우주정거장(ISS) 궤도를 유지할 수 있는 방법을 모색하고 있다고 AFP통신이 1일(현지시간) 보도p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112094328/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112094198.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112094328/1" target='_blank' >캐나다 “러시아산 원유쟁 중단해야”</a>
+            <em></em>
+            <span>2022-03-01 12:17</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112094328/1" target='_blank' >... 러시아원유에 대한 의존도가 높다. 유럽연합(<span class='highlight'>EU</span>) 석유의 4분의1이, 천연가스의 약 40%가 러시아에서 수입입을 금지한다면 매우 강력한 조치가 ...</a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112093178/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112093122.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112093178/1" target='_blank' >“살아만 있어달라 기도비신부 두고 온 대구 예비신랑</a>
+            <em></em>
+            <span>2022-03-01 10:53</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112093178/1" target='_blank' >대구 YMCA 간사로 일하고 있는 이건희씨(36)와 우크라이나 국적인 아나스타샤씨(27·여)는 오는 5월 결혼을 앞두고 있는 예비부부다. 러시아에서 어학연수를 하다 아나스타샤씨를 알 ... </a></p>
+          <div class='loc'><em>뉴스1 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112093188/1" target='_blank' >“러, 국가부도 선언 가해 두자릿대 역성장”</a>
+            <em></em>
+            <span>2022-03-01 10:53</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112093188/1" target='_blank' >러시아가 발행한 채권에 대한 디폴트(채무상환불이행)를 선언할 가능성이 매우 높다고 글로벌 은행업계 로비단체 국제금융협회(IFF)가 예상했러시아가 국가부도를 선언할  ... </a></p>
+          <div class='loc'><em>뉴스1 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112092702/1" target='_blank' >러-우크라 협상 ‘휴전“수일 내 2차 대화”</a>
+            <em></em>
+            <span>2022-03-01 10:24</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112092702/1" target='_blank' >러시아와 나 간 휴전을 위한 양측의 1차 협상이 즉각적인 합의를 마련하지 못하고 끝났다. 우크라이나와 러시아 간 회담은 러 침공 5일째인 28일(현지시간) 러시아 군이 우크라 ... </a></p>
+          <div class='loc'><em>뉴스1 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112092596/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112092570.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112092596/1" target='_blank' >“러군, 하르키우서 집 등 일가족 사망</a>
+            <em></em>
+            <span>2022-03-01 10:15</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112092596/1" target='_blank' >러시아군이이나 제2 도시인 하르키우 주택가에 가한 폭격으로 어린이 등 46명의 사상자가 발생한 것으로 알려졌다.1일(현지시간) 가디언 등 외신에 따르면 이고르 테레호프 하르 ... </a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112092576/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112092516.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112092576/1" target='_blank' >유엔 “우크라서 민간인…피란 56만 명”</a>
+            <em></em>
+            <span>2022-03-01 10:13</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112092576/1" target='_blank' >유엔은 28지시간) 러시아 침공 닷새 동안 우크라이나에서 최소 406명의 민간인 사상자가 발생하고, 56만 명이 피란한 것으로 파악했다.CNN 등에 따르면 마틴 그리피스 유엔 인도주의 ... </a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112092155/1" target='_blank' >젤렌스키, 국제사회에통행금지 요청…美는‘신중’</a>
+            <em></em>
+            <span>2022-03-01 09:45</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112092155/1" target='_blank' >우크라이나이 러시아 비행기와 선박에 대한 통행 금지를 국제사회에 요청했다. 하지만 이에 대해 미국은 러시아와 직접적인 충돌을 우려해 유보적인 입장을 밝혔다.볼로디미르 ... </a></p>
+          <div class='loc'><em>뉴스1 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112092004/2' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112092001.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112092004/2" target='_blank' >젤렌스키, <span clasighlight'>EU</span> 가입 신청서 서명하며 “이건 진짜다” SNS 인증</a>
+            <em></em>
+            <span>2022-03-01 09:33</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112092004/2" target='_blank' >... 가입 는 통상 1년 이상 걸릴 것으로 전망했다. <span class='highlight'>EU</span> 외교정책을 총괄하는 호세트 보렐 외교·안보 정책 고위는 ...</a></p>
+          <div class='loc'><em>동아닷컴 > 국제</em> | <span>조유경 동아닷컴  기자</span></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112091945/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112091910.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112091945/1" target='_blank' >백악관 “우크라에 미군” 재확인</a>
+            <em></em>
+            <span>2022-03-01 09:27</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112091945/1" target='_blank' >조 바이든대통령이 28일(현지시간) 미군을 우크라이나에 파병하는 일은 없을 것이라고 재확인했다고 백악관 대변인이 밝혔다.CNN에 따르면 볼로디미르 젤렌스키 우크라이나 대통 ... </a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112091946/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112091928.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112091946/1" target='_blank' >젤렌스키 “러시아와 회중…포격 중단하라”</a>
+            <em></em>
+            <span>2022-03-01 09:27</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112091946/1" target='_blank' >볼로디미르키 우크라이나 대통령이 “회담 결과를 분석 중이니 러시아는 미사일, 폭탄, 포병으로 무장한 공격을 즉각 중단하라”고 말했다. 28일(현지시간) 젤렌스키 대통령은  ... </a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112091629/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112091627.2.gif' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112091629/1" target='_blank' >“우크라 만세”…포로로, 우크라 군들과 화기애애[영상]</a>
+            <em></em>
+            <span>2022-03-01 08:40</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112091629/1" target='_blank' >일부 러시들이 우크라이나와의 전쟁 사실도 모른 채 전투에 투입 가운데, 한 러시아 병사와 우크라이나 군인들이 장난치는 듯한 모습이 공개됐다.오스트리아 주재 우크라이나  ... </a></p>
+          <div class='loc'><em>뉴스1 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112091603/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112091562.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112091603/1" target='_blank' >美주재 우크라 대사 “탄 사용…국제법 위반”</a>
+            <em></em>
+            <span>2022-03-01 08:32</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112091603/1" target='_blank' >러시아가 나 공격 과정에서 국제법상 금지된 진공 폭탄(vacuum bomb)을 사용했다는 주장이 나왔다.CBS, NBC 등에 따르면 옥사나 마르카로바 미국 주재 우크라이나 대사는 28일(현지 ... </a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112091600/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112091589.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112091600/1" target='_blank' >러 외무부 “제재에 굴실현 위해 노력할 것”</a>
+            <em></em>
+            <span>2022-03-01 08:31</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112091600/1" target='_blank' >...  경제장을 억제할 작정”이라고 밝혔다.외무부는 “<span class='highlight'>EU</span>의 제재에 무대응으로 일관하지 않을 것”이라며 “러시.</a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div>    <div class="searchList">
+        <div class='p'><a href='https://www.donga.com/news/article/all/20220301/112091448/1' target='_blank' ><img src='https://dimg.donga.com/a/80/80/90/2/wps/NEWS/IMAGE/2022/03/01/112091353.2.jpg' alt='img'></a></div>
+        <div class="t">
+          <p class="tit">
+            <a href="https://www.donga.com/news/article/all/20220301/112091448/1" target='_blank' >美국방관리 “러시아, 프 포위작전 감행”</a>
+            <em></em>
+            <span>2022-03-01 08:03</span>
+          </p>
+          <p class="txt"><a href="https://www.donga.com/news/article/all/20220301/112091448/1" target='_blank' >우크라이나한 러시아가 며칠 내로 수도 키예프를 포위하는 작전을 감행할 것이라고 미국 국방부 고위관리가 28일(현지시간) 밝혔다.CNN 등에 따들 ... </a></p>
+          <div class='loc'><em>뉴시스 > 국제</em></div>
+        </div>
+      </div></div> <div class='page'><a href='?p=1&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>1</a><strong>2</strong><a href='?p=31&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>3</a><a href='?p=46&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>4</a><a href='?p=61&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>5</a><a href='?p=76&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>6</a><a href='?p=91&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>7</a><a href='?p=106&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>8</a><a href='?p=121&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>9</a><a href='?p=136&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1'>10</a><a href='?p=151&query=EU&check_news=1&more=1&sorting=1&search_date=1&v1=&v2=&range=1' class='right' title='다음'>&nbspspan></span></a></div></div>        <div class="bot_searchBar">
+      <!-- 검색 영역 -->
+      <div class="sea_box">
+        <form name="search_form" id="search_form" method="get" action="https://www.donga.com/news/search">
+          <fieldset>
+            <legend>전체검색</legend>
+            <input class="t" type="text"  id='query' name='query' title="검색어 입력" value="EU"  onclick="documentlementById('search_form').query.value =''"><input class="s" type="image" src="https://image.donga.com/donga2013/images/common/btn_bot_search.gif" alt="검색">
+          </fieldset>
+        </form>
+      </div>
+      <!-- // 검색 영역 -->
+    </div>
+    </div>
+    <!-- //content -->
+
+    <div id='aside'>        <!-- 많이 본 뉴스 -->
+      <div class="aside_article many_news">
+        <span class="title">많이 본 뉴스</span>
+        <div class="trend_cont">
+          <div class="trend_box">
+            <ol class="trend_list">
+              <li>
+                <a href="https://www.donga.com/news/Inter/article/all/20220301/112091629/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num1">1</span>
+                                            <span class="desc">“우크라 만세”…포로로 잡힌 러 군인, 우크라 군들과 화기애애[영상]</span>
+                                        </span>
+                </a>
+              </li>                                <li>
+              <a href="https://www.donga.com/news/Economy/article/all/20220301/112102593/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num2">2</span>
+                                            <span class="desc">‘넥슨 창업주’ 김정주 NXC 이사 별세…향년 54세</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Politics/article/all/20220301/112097162/2"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num3">3</span>
+                                            <span class="desc">이준석 “유관순 모욕 시 올린 與 이병훈, 당차원서 사죄하라”</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Politics/article/all/20220301/112100398/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num4">4</span>
+                                            <span class="desc">“투표로 단일화 해달라”…野, ‘安 사표론’ 띄우기 시작</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Inter/article/all/20220301/112100008/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num5">5</span>
+                                            <span class="desc">“엄마, 우크라 사람들이 우리 장갑차 아래서 죽어가고 있어요”</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Politics/article/all/20220301/112097514/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num6">6</span>
+                                            <span class="desc">당사에 우크라이나 국기색 조명 쏜 국민의힘</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/It/article/all/20220301/112102947/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num7">7</span>
+                                            <span class="desc">엔씨 김택진, 故 김정주 추모 “살면서 가장 큰 고통…나의 벗, 사랑했다”</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Politics/article/all/20220301/112097924/2"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num8">8</span>
+                                            <span class="desc">與 “尹 우크라 관련 ‘귤 트윗’ 사과하라”·野 “‘오렌지혁명’ 떠올린 것”</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Opinion/article/all/20220301/112103790/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num9">9</span>
+                                            <span class="desc">文 끝내 못 푼 한일관계, 양국 국내정치 악용 땐 다시 평행선 [사설]</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Opinion/article/all/20220301/112103793/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 많이 본' >
+                                        <span class="cont_info">
+                                            <span class="tit num10">10</span>
+                                            <span class="desc">李·尹 모두 사전투표 독려… 음모론 누구에게도 득 안 된다 [사설]</span>
+                                        </span>
+              </a>
+            </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <!-- //많이 본 뉴스 -->
+      <!-- 광고1 -->
+
+      <!-- 광고2 -->
+
+      <!-- 광고3 -->
+
+      <!-- 광고8 -->
+
+      <!-- 광고4 -->
+
+      <!-- //광고 -->
+      <div class="aside_article category_news">
+        <span class="title">최신기사</span>
+        <div class="trend_cont">
+          <div class="trend_box">
+            <ol class="trend_list">
+              <li>
+                <a href="https://www.donga.com/news/Opinion/article/all/20220301/112103793/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 카테고리 뉴스' >
+                  <span class="cont_info"><span class="desc">李·尹 모두 사전투표 독려… 음모론 누구에게도 득 안 된다 [사설]</span></span>
+                  <span class='thumb_img'><img src='https://dimg.donga.com/a/69/54/90/1/wps/NEWS/IMAGE/2022/03/01/112103807.1.jpg' alt='李·尹 모두 사전투표 독려… 음모론 누구에게도 득 안 된다 [사설]'></span>
+                </a>
+              </li>                                                     <li class='img_none'>
+              <a href="https://www.donga.com/news/Opinion/article/all/20220301/112103790/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 카테고리 뉴스' >
+                <span class="cont_info"><span class="desc">文 끝내 못 푼 한일관계, 양국 국내정치 악용 땐 다시 평행선 [사설]</span></span>
+
+              </a>
+            </li>                                                     <li class='img_none'>
+              <a href="https://www.donga.com/news/Opinion/article/all/20220301/112103786/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 카테고리 뉴스' >
+                <span class="cont_info"><span class="desc">방역패스 중단 속 대형 유세·집회… 더 중요해진 방역기본 [사설]</span></span>
+
+              </a>
+            </li>                                                     <li class='img_none'>
+              <a href="https://www.donga.com/news/Inter/article/all/20220301/112103819/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 카테고리 뉴스' >
+                <span class="cont_info"><span class="desc">우크라, 중국에 중재 요청…中 “협상 통해 문제 해결해야”(상보)</span></span>
+
+              </a>
+            </li>                                                     <li>
+              <a href="https://www.donga.com/news/Entertainment/article/all/20220301/112103816/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 카테고리 뉴스' >
+                <span class="cont_info"><span class="desc">곽윤기 “코 함몰에 콧구멍까지 잘려”…쇼트트랙 부상 고백</span></span>
+                <span class='thumb_img'><img src='https://dimg.donga.com/a/69/54/90/1/wps/NEWS/IMAGE/2022/03/01/112103769.2.jpg' alt='곽윤기 “코 함몰에 콧구멍까지 잘려”…쇼트트랙 부상 고백'></span>
+              </a>
+            </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- 광고 -->
+
+
+      <!-- //광고 -->
+
+      <!-- 베스트 추천 -->
+      <div class="aside_article best_recom">
+        <span class="title">베스트 추천</span>
+        <div class="trend_cont">
+          <div class="trend_box">
+            <ol class="trend_list">
+              <li>
+                <a href="https://www.donga.com/news/Inter/article/all/20220301/112091629/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 베스트 추천' >
+                                        <span class="cont_info">
+                                            <span class="tit num1">1</span>
+                                            <span class="desc">“우크라 만세”…포로로 잡힌 러 군인, 우크라 군들과 화기애애[영상]</span>
+                                        </span>
+                </a>
+              </li>                                <li>
+              <a href="https://www.donga.com/news/Politics/article/all/20220301/112097162/2"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 베스트 추천' >
+                                        <span class="cont_info">
+                                            <span class="tit num2">2</span>
+                                            <span class="desc">이준석 “유관순 모욕 시 올린 與 이병훈, 당차원서 사죄하라”</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Inter/article/all/20220301/112090212/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 베스트 추천' >
+                                        <span class="cont_info">
+                                            <span class="tit num3">3</span>
+                                            <span class="desc">“숨진 아이 눈, 푸틴에 보여줘라” “러, 유치원에 집속탄 포격도”</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Politics/article/all/20220301/112090042/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 베스트 추천' >
+                                        <span class="cont_info">
+                                            <span class="tit num4">4</span>
+                                            <span class="desc">尹 “李, 자고나면 말 바꾸는데 대통령 될수 있나” 비난</span>
+                                        </span>
+              </a>
+            </li>                                <li>
+              <a href="https://www.donga.com/news/Inter/article/all/20220301/112090190/1"   data-evnt-ctg='page : 동아|article' data-evnt-act='area: 베스트 추천' >
+                                        <span class="cont_info">
+                                            <span class="tit num5">5</span>
+                                            <span class="desc">총 든 우크라 여성들… “난 우리나라에 살고 싶을 뿐, 그게 다예요”</span>
+                                        </span>
+              </a>
+            </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- 광고 -->
+      <div class='aside_adzone09'><script type='text/javascript' src='https://image.donga.com/dac/NEWS/PC/news_east_list_box_01.js'></script></div>
+      <!-- //광고 -->        </div>
+  </div>
+  <!--// container --><script type='text/javascript'> var _skey = 'EU' ; </script>
+  <!-- footer -->
+  <div id="footer_wrap">
+    <script src="https://dimg.donga.com/carriage/NEWS/files/home_notice_dmg/home_notice_dmg.3.js"></script>            <div id="sitemap">
+    <div class="sitemap_box">
+      <dl class='left'>
+        <dt class='first'><a href='https://www.donga.com/news/Opinion'>오피니언</a></dt>
+        <dd><a href='https://www.donga.com/news/Series/70040100000001'>사설</a></dd>
+        <dd><a href='https://www.donga.com/news/Series/70040100000009'>오늘과 내일</a></dd>
+        <dd><a href='https://www.donga.com/news/Series/70040100000002'>횡설수설</a></dd>
+        <dd><a href='https://www.donga.com/news/Series/70040100000019'>동아광장</a></dd>
+        <dd><a href='https://www.donga.com/news/Series/70040100000018'>시론</a></dd>
+        <dd><a href='https://www.donga.com/news/Series/70040100000034'>광화문에서</a></dd>
+        <dd><a href='https://www.donga.com/news/Series/70010000000260'>현장에서</a></dd>
+      </dl>
+      <dl>
+        <dt class='first'>뉴스</dt>
+        <dd><a href='https://www.donga.com/news/Politics'>정치</a></dd>
+        <dd><a href='https://www.donga.com/news/Economy'>경제</a></dd>
+        <dd><a href='https://www.donga.com/news/Inter'>국제</a></dd>
+        <dd><a href='https://www.donga.com/news/Society'>사회</a></dd>
+        <dd><a href='https://www.donga.com/news/Culture'>문화</a></dd>
+        <dd><a href='https://www.donga.com/news/Entertainment'>연예</a></dd>
+        <dd><a href='https://www.donga.com/news/Sports'>스포츠</a></dd>
+      </dl>
+      <dl>
+        <dt class='first'>매거진</dt>
+        <dd><a href='https://shindonga.donga.com' target='_blank'>신동아</a></dd>
+        <dd><a href='https://weekly.donga.com' target='_blank'>주간동아</a></dd>
+        <dd><a href='https://woman.donga.com' target='_blank'>여성동아</a></dd>
+        <dd><a href='https://magazine.donga.com' target='_blank'>매거진동아</a></dd>
+        <dd><a href='https://dbr.donga.com/?src=image&kw=000011' target='_blank'>동아비즈니a></dd>
+        <dd><a href='https://www.hbrkorea.com' target='_blank'>하버드비즈니스<br/>리뷰코리아</a></dd>
+      </dl>
+      <dl>
+        <dd><a href='https://kids.donga.com' target='_blank'>어린이동아</a></dd>
+        <dd><a href='http://www.scienceboard.co.kr' target='_blank'>과학동아</a></dd>
+        <dd><a href='https://kids.dongascience.com' target='_blank'>어린이 과학동아</a></dd>
+        <dd><a href='http://www.polymath.co.kr' target='_blank'>수학동아</a></dd>
+        <dd><a href='http://edu.donga.com' target='_blank'>에듀동아</a></dd>
+      </dl>
+      <dl>
+        <dt class='first'>섹션</dt>
+        <dd><a href='https://www.donga.com/news/Section/Books'>책의 향기</a></dd>
+        <dd><a href='https://www.donga.com/news/Section/Health'>헬스 동아</a></dd>
+        <dd><a href='https://www.donga.com/news/Section/stylemagazineQ'>스타일매거진Q</a></dd>
+        <dd><a href='https://www.donga.com/news/Section/Goldengirl'>골든걸</a></dd>
+        <dd><a href='https://www.donga.com/news/Issue/07010000000057'>즐거운 인생</a></dd>
+        <dd><a href='https://www.donga.com/news/Section/Funnystudy'>edu+</a></dd>
+      </dl>
+      <dl>
+        <dt><a href='https://www.donga.com/news/List'>실시간 뉴스</a></dt>
+        <dt><a href='https://www.donga.com/news/Hotissue'>실시간 이슈</a></dt>
+        <dt><a href='https://www.donga.com/news/TrendNews'>트렌드뉴스</a></dt>
+        <dt><a href='https://www.donga.com/news/Newsletter'>뉴스레터 신청</a></dt>
+        <dt><a href='https://www.donga.com/Journalist'>기자</a></dt>
+        <dt class="app"><a href='https://web.donga.com/lab'>동아APP서비스</a></dt>
+      </dl>
+      <dl>
+        <dt><a href='https://www.donga.com/news'>오늘의신문</a></dt>
+        <dt><a href='https://www.donga.com/news/Pdf'>신문보기(PDF)</a></dt>
+        <dt><a href='https://readers.donga.com'>구독신청</a></dt>
+        <dt><a href='https://www.donga.com/news/Economy/List_0120'>보도자료</a></dt>
+        <dt><a href='https://voice.donga.com'>보이스뉴스</a></dt>
+        <dt><a href='https://rss.donga.com'>RSS</a></dt>
+        <dt><a href='http://dbs.donga.com' target='_blank'>동아방송 DBS</a></dt>
+      </dl>
+      <dl>
+        <dt><a href='https://www.ichannela.com' target='_blank'>채널A</a></dt>
+        <dt><a href='https://sports.donga.com' target='_blank'>스포츠동아</a></dt>
+        <dt class='first'><a href='https://bizn.donga.com'>비즈N</a></dt>
+        <dt><a href='http://mlbpark.donga.com' target='_blank'>MLB파크</a></dt>
+        <dt><a href='https://studio.donga.com' target='_blank'>보스</a></dt>
+        <dt><a href='https://voda.donga.com' target='_blank'>VODA</a></dt>
+        <dt><a href='https://it.donga.com' target='_blank'>IT동아</a></dt>
+        <dt><a href='https://game.donga.com' target='_blank'>게임동아</a></dt>
+      </dl>
+    </div>
+  </div>
+    <footer id="footer">
+      <div class="footerBox">
+        <div class='footerNav'>
+          <p>
+            <strong>동아일보</strong>
+            <a href='https://web.donga.com/damg/' class='bgNone'>회사소개</a><span class="txt_bar">|</span>
+            <a href='https://www.donga.com/docs/ilbo/event/index.html'>문화스포츠사업</a><span class="txt_bar">|</span>
+            <a href='http://www.presseum.or.kr'>신문박물관</a><span class="txt_bar">|</span>
+            <a href='http://www.inchonmemorial.co.kr'>인촌기념회</a><span class="txt_bar">|</span>
+            <a href='http://www.hjpeace.or.kr'>화정 평화재단</a><span class="txt_bar">|</span>
+            <a href='https://www.donga.com/docs/ilbo/advertisement/'>신문광고안내</a><span class="txt_bar">|</span>
+            <a href='https://readers.donga.com'>구독신청</a><span class="txt_bar">|</span>
+            <a href='https://www.donga.com/docs/ilbo/svc/'>독자서비스</a><span class="txt_bar">|</span>
+            <a href='mailto:svc@donga.com'>기사제보</a><span class="txt_bar">|</span>
+            <a href='https://www.donga.com/docs/ilbo/html/01_company/company_07.htm'>정정보도 신청</a>
+          </p>
+          <div class='address'>주소: 서울특별시 종로구 청계천로 1 <span>|</span> 대표번호: 02-2020-0114 </div>
+          <p>
+            <strong>동아닷컴</strong>
+            <a href='https://www.donga.com/docs/intro/company/aboutdonga_01.html' class='bgNone'>회사소개</a><span c="txt_bar">|</span>
+            <a href='https://www.donga.com/docs/intro/company/ad_01.html'>광고 (인터넷, 전광판)</a><span class="txt_span>
+                   <a href='https://www.donga.com/docs/intro/company/cooperation_01.html'>제휴안내</a><span class="txt_bar"span>
+            <a href='https://secure.donga.com/membership/policy/service.php'>이용약관</a><span class="txt_bar">|</span>
+            <a href='https://secure.donga.com/membership/policy/privacy.php'><strong>개인정보처리방침</strong></a><ss="txt_bar">|</span>
+            <a href='https://secure.donga.com/membership/policy/teenager.php'>청소년보호정책(책임자: 구민회)</a><spaass="txt_bar">|</span>
+            <a href='https://www.donga.com/news/sitemap'>사이트맵</a><span class="txt_bar">|</span>
+            <a href='https://rss.donga.com/'>RSS <img src='https://image.donga.com/home2011/images/footer_icon_rss.gif' alt='rss'></a>
+          </p>
+        </div>
+        <div class='copyright'>
+          <p class="address">
+            주소: 서울특별시 서대문구 충정로 29 <span>|</span>
+            Tel: 02-360-0400 <span>|</span>
+            등록번호: 서울아00741 <span>|</span>
+            발행일자: 1996.06.18 <span>|</span>
+            등록일자: 2009.01.16 <span>|</span>
+            발행·편집인: 박원재
+          </p>
+          <p class='fLogo'>
+            Copyright by <strong>dongA.com</strong> All rights reserved.
+            <iframe class="footerBanner  type01" src="https://image.donga.com/donga2013/html/2014_f_banner.html" frameborder="0" scrolling="no" title="하단 배너"></iframe>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- //footer -->
+  <script type='text/javascript' src='https://dimg.donga.com/carriage/NEWS/cron/breakNews/breakNews.pc.js?t=202203020115'></script>
+</div>
+<!-- //wrap -->
+
+</body>
+</html>
