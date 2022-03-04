@@ -14,7 +14,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 url = "https://www.donga.com/"
-MAX_WORKERS = 20
+MAX_WORKERS = 8
 
 
 class DAQuery(BaseModel):
