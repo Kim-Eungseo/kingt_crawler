@@ -1,6 +1,5 @@
 import requests
 import json
-from concurrent import futures
 
 keyword_list = ["주식", "윤석열", "이재명", "투자", "원자재", "기술주", "대기업", "상반기", "하반기"]
 
@@ -13,7 +12,6 @@ for keyword in keyword_list:
 
     for i in range(1, 300):
         try:
-
             print(num)
             num += 1
 
