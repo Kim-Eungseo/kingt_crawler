@@ -42,51 +42,57 @@ class SEQuery(BaseModel):
 @router.get("/articles")
 async def get_se_article(query: SEQuery):
     request_url = make_search_se_url(query)
-    # UA가 없으면 403 에러 발생
-    response = requests.get(request_url, headers={'User-Agent': 'Mozilla/5.0'})
-    if response.status_code == 200:
-        html = response.content.decode('utf-8')
-        soup = BeautifulSoup(html, 'lxml')
+    try:
 
-        list_list = soup.find_all('div', class_='text_area')
-        print(list_list)
+        # UA가 없으면 403 에러 발생
+        response = requests.get(request_url, headers={'User-Agent': 'Mozilla/5.0'})
+        if response.status_code == 200:
+            html = response.content.decode('utf-8')
+            soup = BeautifulSoup(html, 'lxml')
 
-        r = re.compile("(/NewsView/\w+)\"")
-        link_result = r.findall(html)
+            list_list = soup.find_all('div', class_='text_area')
+            print(list_list)
 
-        time_result, date_result = [], []
+            r = re.compile("(/NewsView/\w+)\"")
+            link_result = r.findall(html)
 
-        for l in list_list:
-            time_result.append(time_r.findall(str(l))[0])
-            date_result.append(date_r.findall(str(l))[0])
+            time_result, date_result = [], []
 
-        print(link_result)
-        print(date_result)
-        print(time_result)
+            for l in list_list:
+                time_result.append(time_r.findall(str(l))[0])
+                date_result.append(date_r.findall(str(l))[0])
 
-        workers = min(MAX_WORKERS, len(link_result))
-        with futures.ThreadPoolExecutor(workers) as executor:
-            article_result = list(executor.map(parse_article, link_result))
+            print(link_result)
+            print(date_result)
+            print(time_result)
 
-        result_list = []
-        for i in range(len(link_result)):
-            if date_result[i].find('분전') + time_result[i].find('분전') != -2:
-                minutes_diff = (duration.total_seconds()) / 60 - \
-                               [int(s) for s in date_result[i].split() if s.isdigit()][0]
-                date_result[i] = datetime.fromtimestamp(minutes_diff * 60).strftime("%Y.%m.%d")
-                time_result[i] = datetime.fromtimestamp(minutes_diff * 60).strftime("%H:%M:%S")
+            workers = min(MAX_WORKERS, len(link_result))
+            with futures.ThreadPoolExecutor(workers) as executor:
+                article_result = list(executor.map(parse_article, link_result))
 
-            result_list.append({
-                "link": url + link_result[i],
-                "datetime": date_result[i] + ' ' + time_result[i],
-                "article": article_result[i]
-            })
+            result_list = []
+            for i in range(len(link_result)):
+                if date_result[i].find('분전') + time_result[i].find('분전') != -2:
+                    minutes_diff = (duration.total_seconds()) / 60 - \
+                                   [int(s) for s in date_result[i].split() if s.isdigit()][0]
+                    date_result[i] = datetime.fromtimestamp(minutes_diff * 60).strftime("%Y.%m.%d")
+                    time_result[i] = datetime.fromtimestamp(minutes_diff * 60).strftime("%H:%M:%S")
+
+                result_list.append({
+                    "link": url + link_result[i],
+                    "datetime": date_result[i] + ' ' + time_result[i],
+                    "article": article_result[i]
+                })
+            return {
+                "result": result_list
+            }
+        else:
+            return response.status_code
+
+    except Exception as e:
         return {
-            "result": result_list
+            "result": e
         }
-    else:
-        return response.status_code
-
 
 @router.get("/search")
 async def search_se(query: SEQuery):

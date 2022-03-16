@@ -7,7 +7,7 @@ import pickle
 train_list = []
 preprocessed_data = []
 
-kor_stopwords = pd.read_csv("kor_stopwords.txt", sep="\t", names=['stw', 'part', 'ratio'])
+kor_stopwords = pd.read_csv("../kor_stopwords.txt", sep="\t", names=['stw', 'part', 'ratio'])
 
 with open('./donga.json') as json_file:
     json_data = json.load(json_file)
