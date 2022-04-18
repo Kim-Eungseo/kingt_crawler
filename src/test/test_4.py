@@ -3,16 +3,15 @@ import json
 
 with open('../data_3.pickle', 'rb') as fr:
     data = pickle.load(fr)
-errors = []
 
-for d in data:
-    if '"error"' in d['data']:
-        # if d['keyword'] == 'SK':
-        #     print(d)
-        errors.append(d['keyword'])
+new_data = []
+# print(data)
+for idx, d in enumerate(data):
+    if '"error"' not in d['data']:
+        d['data'] = json.loads(d['data'])
+        new_data.append(d)
 
-for i in errors:
-    print(i)
+new_data = json.dumps(new_data).encode('utf-8').decode('unicode-escape')
 
-print(len(errors))
-
+with open("dart.txt", "w") as fw:
+    fw.write(new_data)
