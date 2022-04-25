@@ -1,6 +1,8 @@
 import datetime as dt
 import FinanceDataReader as fdr
+import numpy
 import numpy as np
+import json
 import pandas as pd
 from tqdm import tqdm
 from fastapi import APIRouter
@@ -85,7 +87,14 @@ def append_data(last_date, code):
         else:
             result = pd.concat([result, t_row])
 
-    return result.to_dict('list')
+    result = result.to_dict('list')
+    for r in result.keys():
+        if type(result[r][0]) is numpy.int64:
+            result[r] = [int(i) for i in result[r]]
+        elif type(result[r][0]) is numpy.float64:
+            result[r] = [float(i) for i in result[r]]
+
+    return result
 
 
 @router.get("/price")
