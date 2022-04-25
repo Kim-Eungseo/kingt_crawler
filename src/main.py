@@ -12,3 +12,4 @@ app.include_router(stock_price.router)
 @app.get("/")
 async def read_root():
     return {"crawler": "is working"}
+
