@@ -5,6 +5,7 @@ import numpy as np
 import json
 import pandas as pd
 from tqdm import tqdm
+import re
 from fastapi import APIRouter
 
 router = APIRouter(
@@ -20,6 +21,13 @@ KOSDAQ_list = fdr.StockListing("KOSDAQ")  # 코스닥 상장 종목 코드 리�
 KOSPI_list = fdr.StockListing("KOSPI")
 KOS_list = KOSDAQ_list.append(KOSPI_list)
 
+code_re = re.compile("\d{6}")  # valid code를 잡아내기 위한 정규표현식
+valid_kos_code = []  # 최종 valid code
+
+for i in tqdm(range(len(KOS_list))):
+    if code_re.match(KOS_list.iloc[i, 0]) and len(KOS_list.iloc[i, 0]) == 6:
+        valid_kos_code.append(KOS_list.iloc[i, 0])
+
 COLUMN_LIST = {"code": [None], "name": [None], "date": [None],
                "open": [None], "high": [None], "low": [None], "close": [None], "volume": [None],
                "price_change": [None], "volume_change": [None],
@@ -29,6 +37,8 @@ COLUMN_LIST = {"code": [None], "name": [None], "date": [None],
 today = dt.datetime.today()  # 금일의 날짜 데이터
 one_year = dt.timedelta(days=365)  # 지난 1년간의 데이터를 가져오기 위한 시간변화량
 year_before = today - one_year
+
+whole_db = {}
 
 
 def append_data(last_date, code):
@@ -104,6 +114,40 @@ def append_data(last_date, code):
     return result
 
 
+def update():
+    try:
+        for code in tqdm(valid_kos_code):
+            df = fdr.DataReader(code, year_before.strftime("%Y-%m-%d"))
+            sma_5_list = []
+            if len(df["Close"]) > 30:
+                for i in range(0, 20):
+                    sma_5 = np.mean(df.iloc[-1 - i:-6 - i:-1, 3])
+                    sma_5_y = np.mean(df.iloc[-2 - i:-7 - i:-1, 3])
+                    sma_5_change = (sma_5 - sma_5_y) / sma_5_y * 100
+                    sma_5_list.append(sma_5_change)
+
+            sma_5_list.reverse()
+            price_change = list(df.iloc[-1:-21:-1, 5])
+            price_change.reverse()
+            price_list = [rate * 100 for rate in price_change]
+
+            whole_db[code] = {
+                "name": KOS_list[KOS_list['Symbol'] == code].iloc[0, 2],
+                "price": price_list,  # price change
+                "sma_5": sma_5_list  # sma_5 change
+            }
+    except Exception as e:
+        print(e)
+        return "error"
+
+    return "done"
+
+
 @router.get("/price")
 async def get_stock_price(last_date: str, code: str):
     return append_data(last_date, code)
+
+
+@router.update("/update")
+async def update_db():
+    return update()
