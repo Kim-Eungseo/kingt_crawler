@@ -1,5 +1,6 @@
 import datetime as dt
 import FinanceDataReader as fdr
+from multiprocessing import Pool
 import numpy
 import numpy as np
 import json
@@ -14,15 +15,15 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)  # 데이터 프레임 생략(...)없이 출력
+# pd.set_option('display.max_rows', None)
+# pd.set_option('display.max_columns', None)  # 데이터 프레임 생략(...)없이 출력
 
 KOSDAQ_list = fdr.StockListing("KOSDAQ")  # 코스닥 상장 종목 코드 리스팅
 KOSPI_list = fdr.StockListing("KOSPI")
 KOS_list = KOSDAQ_list.append(KOSPI_list)
 
 code_re = re.compile("\d{6}")  # valid code를 잡아내기 위한 정규표현식
-valid_kos_code = []  # 최종 valid code
+valid_kos_code = []  # valid code
 
 for i in tqdm(range(len(KOS_list))):
     if code_re.match(KOS_list.iloc[i, 0]) and len(KOS_list.iloc[i, 0]) == 6:
@@ -34,15 +35,20 @@ COLUMN_LIST = {"code": [None], "name": [None], "date": [None],
                "sma_5": [None], "sma_10": [None], "sma_20": [None], "sma_60": [None], "sma_120": [None],
                "sma_5_change": [None]}
 
-today = dt.datetime.today()  # 금일의 날짜 데이터
-one_year = dt.timedelta(days=365)  # 지난 1년간의 데이터를 가져오기 위한 시간변화량
-year_before = today - one_year
+
+def year_before():
+
+    today = dt.datetime.today()  # 금일의 날짜 데이터
+    one_year = dt.timedelta(days=365)  # 지난 1년간의 데이터를 가져오기 위한 시간변화량
+
+    return today - one_year
+
 
 whole_db = {}
 
 
 def append_data(last_date, code):
-    df = fdr.DataReader(code, year_before.strftime("%Y-%m-%d"))
+    df = fdr.DataReader(code, year_before().strftime("%Y-%m-%d"))
     # 해당 종목 코드의 금일로부터 지난 1년간의 주식 데이터 수집
 
     close_date = df.index[-1].date()  # 장이 마지막으로 마감한 날짜
@@ -114,33 +120,61 @@ def append_data(last_date, code):
     return result
 
 
+def db_compose(code: str) -> tuple:
+    yb = year_before()
+    df = fdr.DataReader(code, yb.strftime("%Y-%m-%d"))
+    sma_5_list = []
+    if len(df) > 20:
+        for i in range(0, 20):
+            sma_5 = np.mean(df.iloc[-1 - i:-6 - i:-1, 3])
+            sma_5_y = np.mean(df.iloc[-2 - i:-7 - i:-1, 3])
+            sma_5_change = (sma_5 - sma_5_y) / sma_5_y * 100
+            sma_5_list.append(sma_5_change)
+        sma_5_list.reverse()
+
+        price_change = list(df.iloc[-1:-21:-1, 5])
+        price_change.reverse()
+        price_list = [rate * 100 for rate in price_change]
+
+        result = {
+            "name": KOS_list[KOS_list['Symbol'] == code].iloc[0, 2],
+            "price": price_list,  # price change
+            "sma_5": sma_5_list  # sma_5 change
+        }
+
+        return code, result
+
+
 def update():
-    try:
-        for code in tqdm(valid_kos_code):
-            df = fdr.DataReader(code, year_before.strftime("%Y-%m-%d"))
-            sma_5_list = []
-            if len(df["Close"]) > 30:
-                for i in range(0, 20):
-                    sma_5 = np.mean(df.iloc[-1 - i:-6 - i:-1, 3])
-                    sma_5_y = np.mean(df.iloc[-2 - i:-7 - i:-1, 3])
-                    sma_5_change = (sma_5 - sma_5_y) / sma_5_y * 100
-                    sma_5_list.append(sma_5_change)
+    KOSDAQ_list = fdr.StockListing("KOSDAQ")  # 코스닥 상장 종목 코드 리스팅
+    KOSPI_list = fdr.StockListing("KOSPI")
+    KOS_list = KOSDAQ_list.append(KOSPI_list)
 
-            sma_5_list.reverse()
-            price_change = list(df.iloc[-1:-21:-1, 5])
-            price_change.reverse()
-            price_list = [rate * 100 for rate in price_change]
+    code_re = re.compile("\d{6}")  # valid code를 잡아내기 위한 정규표현식
+    valid_kos_code = []  # valid code
 
-            whole_db[code] = {
-                "name": KOS_list[KOS_list['Symbol'] == code].iloc[0, 2],
-                "price": price_list,  # price change
-                "sma_5": sma_5_list  # sma_5 change
-            }
-    except Exception as e:
-        print(e)
-        return "error"
+    for i in tqdm(range(len(KOS_list))):
+        if code_re.match(KOS_list.iloc[i, 0]) and len(KOS_list.iloc[i, 0]) == 6:
+            valid_kos_code.append(KOS_list.iloc[i, 0])
 
-    return "done"
+    pool = Pool(processes=8)
+
+    codes = []; dics = []
+
+    for coresult in pool.map(update, valid_kos_code):
+        if coresult is None:
+            continue
+        else:
+            codes.append(coresult[0])
+            dics.append(coresult[1])
+
+    pool.close()
+    pool.join()
+
+    for i in range(len(codes)):
+        whole_db[codes[i]] = dics[i]
+
+
 
 
 @router.get("/price")
@@ -148,6 +182,6 @@ async def get_stock_price(last_date: str, code: str):
     return append_data(last_date, code)
 
 
-@router.update("/update")
+@router.post("/update")
 async def update_db():
     return update()
