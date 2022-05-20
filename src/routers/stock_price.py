@@ -161,7 +161,7 @@ def update():
 
     codes = []; dics = []
 
-    for coresult in pool.map(update, valid_kos_code):
+    for coresult in pool.map(db_compose, valid_kos_code):
         if coresult is None:
             continue
         else:
