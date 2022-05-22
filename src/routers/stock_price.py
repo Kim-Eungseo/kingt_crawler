@@ -3,6 +3,7 @@ import FinanceDataReader as fdr
 from multiprocessing import Pool
 import numpy
 import numpy as np
+import math
 import json
 import pandas as pd
 from tqdm import tqdm
@@ -18,22 +19,27 @@ router = APIRouter(
 # pd.set_option('display.max_rows', None)
 # pd.set_option('display.max_columns', None)  # 데이터 프레임 생략(...)없이 출력
 
-KOSDAQ_list = fdr.StockListing("KOSDAQ")  # 코스닥 상장 종목 코드 리스팅
+KOSDAQ_list = fdr.StockListing("KOSDAQ")  # 코스닥 상장 종목 코드 리스팅 - 업데이트 해야 하는 전역변수
 KOSPI_list = fdr.StockListing("KOSPI")
 KOS_list = KOSDAQ_list.append(KOSPI_list)
-
-code_re = re.compile("\d{6}")  # valid code를 잡아내기 위한 정규표현식
-valid_kos_code = []  # valid code
-
-for i in tqdm(range(len(KOS_list))):
-    if code_re.match(KOS_list.iloc[i, 0]) and len(KOS_list.iloc[i, 0]) == 6:
-        valid_kos_code.append(KOS_list.iloc[i, 0])
+#
+# code_re = re.compile("\d{6}")  # valid code를 잡아내기 위한 정규표현식
+# valid_kos_code = []  # valid code
+#
+# for i in tqdm(range(len(KOS_list))):
+#     if code_re.match(KOS_list.iloc[i, 0]) and len(KOS_list.iloc[i, 0]) == 6:
+#         valid_kos_code.append(KOS_list.iloc[i, 0])
 
 COLUMN_LIST = {"code": [None], "name": [None], "date": [None],
                "open": [None], "high": [None], "low": [None], "close": [None], "volume": [None],
                "price_change": [None], "volume_change": [None],
                "sma_5": [None], "sma_10": [None], "sma_20": [None], "sma_60": [None], "sma_120": [None],
                "sma_5_change": [None]}
+
+
+whole_db = {}
+dist_matrix_price = []
+dist_matrix_sma_5 = []
 
 
 def year_before():
@@ -44,10 +50,17 @@ def year_before():
     return today - one_year
 
 
-whole_db = {}
+def update_kos():
+
+    KOSDAQ_list = fdr.StockListing("KOSDAQ")
+    KOSPI_list = fdr.StockListing("KOSPI")
+    KOS_list = KOSDAQ_list.append(KOSPI_list)
+
+    return KOS_list
 
 
 def append_data(last_date, code):
+    KOS_list = update_kos()
     df = fdr.DataReader(code, year_before().strftime("%Y-%m-%d"))
     # 해당 종목 코드의 금일로부터 지난 1년간의 주식 데이터 수집
 
@@ -120,7 +133,7 @@ def append_data(last_date, code):
     return result
 
 
-def db_compose(code: str) -> tuple:
+def compose_db(code: str) -> (str, dict):
     yb = year_before()
     df = fdr.DataReader(code, yb.strftime("%Y-%m-%d"))
     sma_5_list = []
@@ -145,6 +158,40 @@ def db_compose(code: str) -> tuple:
         return code, result
 
 
+def initialize_matrix(length):
+    matrix = [[np.inf for i in range(length)] for j in range(length)]
+    return matrix
+
+
+def distDTW(ts1, ts2):
+    DTW = {}
+    for i in range(len(ts1)):
+        DTW[(i, -1)] = np.inf
+    for i in range(len(ts2)):
+        DTW[(-1, i)] = np.inf
+    DTW[(-1, -1)] = 0
+
+    for i in range(len(ts1)):
+        for j in range(len(ts2)):
+            dist = (ts1[i] - ts2[i]) ** 2
+            DTW[(i, j)] = dist + min(DTW[(i - 1, j)],
+                                     DTW[(i, j - 1)],
+                                     DTW[(i - 1, j - 1)])
+    return math.sqrt(DTW[len(ts1) - 1, len(ts2) - 1])
+
+
+def pair_dist_price(codes: list):
+    for i in range(len(codes)):
+        for j in range(len(codes)):
+            dist_matrix_price[i][j] = distDTW(whole_db[codes[i]]["price"], whole_db[codes[j]]["price"])
+
+
+def pair_dist_sma_5(codes: list):
+    for i in range(len(codes)):
+        for j in range(len(codes)):
+            dist_matrix_sma_5[i][j] = distDTW(whole_db[codes[i]]["sma_5"], whole_db[codes[j]]["sma_5"])
+
+
 def update():
     KOSDAQ_list = fdr.StockListing("KOSDAQ")  # 코스닥 상장 종목 코드 리스팅
     KOSPI_list = fdr.StockListing("KOSPI")
@@ -161,7 +208,7 @@ def update():
 
     codes = []; dics = []
 
-    for coresult in pool.map(db_compose, valid_kos_code):
+    for coresult in pool.map(compose_db, valid_kos_code):
         if coresult is None:
             continue
         else:
@@ -174,8 +221,13 @@ def update():
     for i in range(len(codes)):
         whole_db[codes[i]] = dics[i]
 
+    global dist_matrix_price
+    global dist_matrix_sma_5
+    dist_matrix_price = initialize_matrix(len(codes))
+    dist_matrix_sma_5 = initialize_matrix(len(codes))
 
-
+    pair_dist_price(codes)
+    pair_dist_sma_5(codes)
 
 @router.get("/price")
 async def get_stock_price(last_date: str, code: str):
